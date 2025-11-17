@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>海尔文化数字化展厅</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">Haier Culture</p>
+      <h1>海尔文化展 · 数字化体验</h1>
+      <p class="lede">沉浸式穿越海尔文化七大阶段，探索案例、互动问答与文化画像，让每一位员工都能找到与 iHaier 互联互通的文化支点。</p>
+      <div class="hero__actions">
+        <button class="btn primary" id="exploreMap">进入展厅</button>
+        <button class="btn ghost" id="startRoam">开启漫游</button>
+      </div>
+    </div>
+    <div class="hero__glow"></div>
+  </header>
+
+  <main>
+    <section class="panel" id="overview">
+      <div class="panel__head">
+        <div>
+          <p class="eyebrow">展厅总览</p>
+          <h2>可点击的 3D 平面图</h2>
+          <p>七大区域与月印万川在同一张 3D 平面图上呈现，可点击进入，并同步点亮对应语音点与内容简介。</p>
+        </div>
+        <div class="map__legend">
+          <span class="legend-dot active"></span> 已选中语音点
+          <span class="legend-dot"></span> 未激活
+        </div>
+      </div>
+      <div class="map" aria-label="展厅 3D 地图">
+        <div class="map__grid" id="mapGrid"></div>
+        <aside class="map__detail" id="mapDetail">
+          <p class="eyebrow">内容简介</p>
+          <h3 id="detailTitle">请选择区域</h3>
+          <p id="detailDesc">点击 3D 地图中的区域卡片，自动点亮语音点并查看对应阶段的文化亮点与关键案例。</p>
+          <div class="detail__meta">
+            <div>
+              <span class="meta-label">阶段定位</span>
+              <p id="detailFocus">—</p>
+            </div>
+            <div>
+              <span class="meta-label">代表案例</span>
+              <p id="detailCase">—</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel" id="areas">
+      <div class="panel__head">
+        <div>
+          <p class="eyebrow">七大区域</p>
+          <h2>战略阶段 + 月印万川</h2>
+          <p>按时间与战略维度梳理海尔文化演进，聚焦品牌、国际化、多元化、主业、网络化、生态品牌，以及“月印万川”未来视角。</p>
+        </div>
+        <div class="chip-group" id="filterChips">
+          <button class="chip active" data-filter="all">全部</button>
+          <button class="chip" data-filter="brand">品牌</button>
+          <button class="chip" data-filter="global">国际</button>
+          <button class="chip" data-filter="network">网络</button>
+          <button class="chip" data-filter="eco">生态</button>
+        </div>
+      </div>
+      <div class="area-cards" id="areaCards"></div>
+    </section>
+
+    <section class="panel" id="interactions">
+      <div class="panel__head">
+        <div>
+          <p class="eyebrow">互动体验</p>
+          <h2>沉浸漫游 · 文化值 · 案例库</h2>
+        </div>
+      </div>
+      <div class="interaction-grid">
+        <article class="interaction">
+          <div class="interaction__header">
+            <h3>沉浸式漫游</h3>
+            <span class="badge">方向键 / 滑动</span>
+          </div>
+          <p>使用键盘方向键或触屏滑动，在展厅路线中前进、后退与转向。互动入口会自动高亮，点击可播放动画、故事或案例短片。</p>
+          <div class="roam" id="roamTrack" tabindex="0" aria-label="沉浸漫游路径">
+            <div class="roam__node" data-step="0">入口</div>
+            <div class="roam__node" data-step="1">品牌</div>
+            <div class="roam__node" data-step="2">国际</div>
+            <div class="roam__node" data-step="3">多元</div>
+            <div class="roam__node" data-step="4">主业</div>
+            <div class="roam__node" data-step="5">网络</div>
+            <div class="roam__node" data-step="6">生态</div>
+            <div class="roam__node" data-step="7">月印</div>
+            <div class="roam__cursor" id="roamCursor"></div>
+          </div>
+          <div class="roam__controls">
+            <p id="roamStatus">使用方向键或左右滑动开始漫游。</p>
+            <button class="btn ghost" id="playStop">播放动画</button>
+          </div>
+        </article>
+
+        <article class="interaction">
+          <div class="interaction__header">
+            <h3>文化值测评</h3>
+            <span class="badge">生成文化画像</span>
+          </div>
+          <p>通过问答、互动生成“文化画像”，可与 iHaier 对接沉淀文化行为数据。</p>
+          <form class="assessment" id="assessmentForm">
+            <label class="question">1. 你最关注的关键词？
+              <select name="focus">
+                <option value="客户第一">客户第一</option>
+                <option value="创新突破">创新突破</option>
+                <option value="协同共赢">协同共赢</option>
+                <option value="生态引领">生态引领</option>
+              </select>
+            </label>
+            <label class="question">2. 你更认同的工作方式？
+              <select name="style">
+                <option value="自主创客">自主创客</option>
+                <option value="团队冲刺">团队冲刺</option>
+                <option value="平台协同">平台协同</option>
+              </select>
+            </label>
+            <label class="question">3. 对“共创”最期待的价值？
+              <select name="value">
+                <option value="用户增值">用户增值</option>
+                <option value="数据沉淀">数据沉淀</option>
+                <option value="开放连接">开放连接</option>
+              </select>
+            </label>
+            <button type="submit" class="btn primary">生成文化画像</button>
+          </form>
+          <div class="assessment__result" id="assessmentResult">
+            <p class="eyebrow">画像预览</p>
+            <h4 id="profileTitle">尚未生成</h4>
+            <p id="profileDesc">提交问卷后将为你生成个性化文化画像，并提供接入 iHaier 的数据接口建议。</p>
+            <div class="profile-tags" id="profileTags"></div>
+          </div>
+        </article>
+
+        <article class="interaction">
+          <div class="interaction__header">
+            <h3>案例库搜索</h3>
+            <span class="badge">关键词检索</span>
+          </div>
+          <p>各阶段案例沉淀为可检索知识库，员工可按关键词快速查找，与案例亮点、阶段场景联动。</p>
+          <div class="search">
+            <input type="search" id="searchInput" placeholder="输入关键词，例如“生态”或“品牌出海”" aria-label="案例库搜索" />
+            <div class="search__results" id="searchResults"></div>
+          </div>
+          <div class="tag-cloud" id="tagCloud"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 Haier Culture · 数字展厅体验</p>
+    <p class="small">本页为展示型原型，可根据 iHaier 接口和企业内网方案对接数据与登录。</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
